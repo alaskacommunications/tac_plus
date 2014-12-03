@@ -41,8 +41,8 @@
  * Return PW_EXPIRED  if already expired
  */
 
-#define SEC_IN_DAY (24*60*60)
-#define WARNING_PERIOD 14
+#define SEC_IN_DAY ((time_t)(24*60*60))
+#define WARNING_PERIOD ((time_t)14)
 
 static char *monthname[] = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN",
 				"JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
@@ -56,7 +56,8 @@ static int32_t days_ere_month[] = {0, 31, 59, 90, 120, 151,
 int
 check_expiration(char *date)
 {
-    int32_t day, month, year, leaps, now, expiration, warning;
+    int32_t day, month, year, leaps;
+    time_t now, expiration, warning;
     char monthstr[10];
     int i;
 
