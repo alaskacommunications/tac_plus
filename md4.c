@@ -44,7 +44,7 @@
  * documentation and/or software.
  */
 
-#include <config.h>
+#include "config.h"
 #include <string.h>
 #ifdef HAVE_SYS_TYPES_H
 # include <sys/types.h>
