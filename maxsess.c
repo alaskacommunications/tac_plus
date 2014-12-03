@@ -356,6 +356,8 @@ ckfinger(char *user, char *nas, struct identity *idp)
     char *curport = portname(idp->NAS_port);
     char *name;
 
+    s = -1;
+
     memset(&hints, 0, sizeof(struct addrinfo));
     hints.ai_family = PF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;

@@ -587,7 +587,8 @@ main(int argc, char **argv)
 	char host[NI_MAXHOST];
 	struct sockaddr_in from;
 	socklen_t from_len;
-	int newsockfd, status;
+	int newsockfd = -1;
+	int status;
 	int flags;
 
 	if (reinitialize)
