@@ -162,7 +162,6 @@ get_socket(int **sa, int *nsa)
 {
     char	host[NI_MAXHOST], serv[NI_MAXHOST];
     struct addrinfo hint, *res, *rp;
-    u_long	inaddr;
     int		ecode,
 		flag,
 		kalive = 1,
