@@ -127,7 +127,7 @@ struct authen_data {
     struct identity *NAS_id;	/* user identity */
     char *server_msg;		/* null-terminated output msg */
 
-    int server_dlen;		/* output data length */
+    size_t server_dlen;		/* output data length */
     char *server_data;		/* output data */
 
     char *client_msg;		/* null-terminated input msg a user typed */
@@ -337,11 +337,11 @@ void report();
 /* utils.c */
 RETSIGTYPE tac_exit(int);
 int tac_lockfd(char *, int);
-char *tac_malloc(int);
+char *tac_malloc(size_t);
 char *tac_strdup(char *);
-char *tac_make_string(u_char *, int);
+char *tac_make_string(u_char *, size_t);
 char *tac_find_substring(char *, char *);
-char *tac_realloc(char *, int);
+char *tac_realloc(char *, size_t);
 
 /* do_acct.c */
 int do_acct_file(struct acct_rec *);

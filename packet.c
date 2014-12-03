@@ -34,8 +34,8 @@
 #pragma	weak	send_error_reply
 
 /* Everything to do with reading and writing packets */
-static int sockread(int, u_char *, int, int);
-static int sockwrite(int, u_char *, int, int);
+static ssize_t sockread(int, u_char *, ssize_t, int);
+static ssize_t sockwrite(int, u_char *, int, int);
 static int write_packet(u_char *);
 
 /* read an authentication GETDATA packet from a NAS.  Return NULL on failure */
@@ -89,7 +89,7 @@ read_packet(void)
 {
     HDR		hdr;
     u_char	*pkt, *data;
-    int		len;
+    ssize_t len;
     char	*tkey;
 
     if (debug & DEBUG_PACKET_FLAG)
@@ -173,9 +173,9 @@ send_acct_reply(u_char status, char *msg, char *data)
 {
     u_char *pak, *p;
     HDR *hdr;
-    int len;
+    size_t len;
     struct acct_reply *reply;
-    int msg_len, data_len;
+    size_t msg_len, data_len;
 
     msg_len = msg ? strlen(msg) : 0;
     data_len = data ? strlen(data) : 0;
@@ -303,9 +303,9 @@ send_author_reply(u_char status, char *msg, char *data, int arg_cnt,
     u_char *pak, *p;
     HDR *hdr;
     struct author_reply *reply;
-    int msg_len;
-    int len;
-    int data_len;
+    size_t msg_len;
+    size_t len;
+    size_t data_len;
     int i;
 
     data_len = (data ? strlen(data) : 0);
@@ -357,7 +357,7 @@ send_author_reply(u_char status, char *msg, char *data, int arg_cnt,
 
     /* copy arg bodies into packet */
     for (i = 0; i < arg_cnt; i++) {
-	int arglen = strlen(args[i]);
+	size_t arglen = strlen(args[i]);
 
 	memcpy(p, args[i], arglen);
 	p += arglen;
@@ -408,10 +408,10 @@ send_error_reply(int type, char *msg)
  *
  * Return -1 on error, eof or timeout. Otherwise return number of bytes read.
  */
-static int
-sockread(int fd, u_char *ptr, int nbytes, int timeout)
+static ssize_t
+sockread(int fd, u_char *ptr, ssize_t nbytes, int timeout)
 {
-    int nleft, nread;
+    ssize_t nleft, nread;
     struct pollfd pfds;
 
     pfds.fd = fd;
@@ -478,10 +478,10 @@ sockread(int fd, u_char *ptr, int nbytes, int timeout)
  * Return -1 on error, eof or timeout.  Otherwise return number of bytes
  * written.
  */
-static int
+static ssize_t
 sockwrite(int fd, u_char *ptr, int bytes, int timeout)
 {
-    int remaining, sent;
+    ssize_t remaining, sent;
     struct pollfd pfds;
 
     pfds.fd = fd;

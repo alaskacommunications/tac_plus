@@ -343,7 +343,8 @@ chap_verify(struct authen_data *data)
     char *exp_date, *p;
     u_char *mdp;
     char id;
-    int chal_len, inlen;
+    int chal_len;
+    ssize_t inlen;
     MD5_CTX mdcontext;
 
     if (!(char) data->NAS_id->username[0]) {
@@ -409,7 +410,7 @@ chap_verify(struct authen_data *data)
     chal = data->client_data + 1;
     memcpy(mdp + strlen(secret) + 1, chal, chal_len);
     MD5Init(&mdcontext);
-    MD5Update(&mdcontext, mdp, inlen);
+    MD5Update(&mdcontext, mdp, (int)inlen);
     MD5Final((u_char *) digest, &mdcontext);
     free(mdp);
 

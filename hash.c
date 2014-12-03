@@ -34,7 +34,7 @@ static int
 calculate_hash(char *name)
 {
     int i;
-    int len = strlen(name);
+    size_t len = strlen(name);
     int hashval = 0;
 
     for (i = 0; i < len; i++) {

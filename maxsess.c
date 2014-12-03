@@ -29,7 +29,7 @@
 
 char *wholog = TACPLUS_WHOLOGFILE;
 
-static int timed_read(int, unsigned char *, int, int);
+static ssize_t timed_read(int, unsigned char *, int, int);
 
 /*
  * initialize wholog file for tracking of user logins/logouts from
@@ -260,10 +260,10 @@ loguser(struct acct_rec *rec)
  *
  * Return -1 on error, eof or timeout. Otherwise return number of bytes read.
  */
-static int
+static ssize_t
 timed_read(int fd, unsigned char *ptr, int nbytes, int timeout)
 {
-    int nread;
+    ssize_t nread;
     struct pollfd pfds;
 
     pfds.fd = fd;
@@ -396,7 +396,7 @@ ckfinger(char *user, char *nas, struct identity *idp)
     buf = NULL;
     bufsize = 0;
     for (;;) {
-	int x;
+	ssize_t x;
 
 	buf = tac_realloc(buf, bufsize + incr + slop);
 	x = timed_read(s, (unsigned char *)(buf + bufsize), incr, 10);
@@ -426,7 +426,7 @@ ckfinger(char *user, char *nas, struct identity *idp)
     }
     /* Tally each time this user appears */
     for (count = 0; p && *p; p = pn) {
-	int i, len, nmlen;
+	size_t i, len, nmlen;
 	char nmbuf[11];
 
 	/* Find next line */

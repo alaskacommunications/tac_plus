@@ -22,7 +22,7 @@
 #include "tac_plus.h"
 
 char *
-tac_malloc(int size)
+tac_malloc(size_t size)
 {
     char *p;
 
@@ -41,7 +41,7 @@ tac_malloc(int size)
 }
 
 char *
-tac_realloc(char *ptr, int size)
+tac_realloc(char *ptr, size_t size)
 {
     char *p;
 
@@ -80,10 +80,10 @@ tac_strdup(char *p)
 }
 
 char *
-tac_make_string(u_char *p, int len)
+tac_make_string(u_char *p, size_t len)
 {
     char *string;
-    int new_len = len;
+    size_t new_len = len;
 
     /*
      * Add space for a null terminator if needed. Also, no telling
@@ -106,7 +106,7 @@ tac_make_string(u_char *p, int len)
 char *
 tac_find_substring(char *substring, char *string)
 {
-    int len;
+    size_t len;
 
     if (!(substring && string)) {
 	return(NULL);

@@ -37,7 +37,7 @@ static pid_t my_popen(char *, int *, int *, int *);
 static int my_popen(char *, int *, int *, int *);
 #endif
 static char **read_args(int, int);
-static int read_string(int, char *, int);
+static ssize_t read_string(int, char *, int);
 static char *substitute(char *, struct author_data *);
 #if HAVE_PID_T
 static int waitfor(pid_t);
@@ -223,7 +223,10 @@ waitfor(int pid)
 static int
 write_args(int fd, char **args, int arg_cnt)
 {
-    int i, m, n, o;
+    int i;
+    size_t n;
+    ssize_t o;
+    ssize_t m;
 
     for (i = 0; i < arg_cnt; i++) {
 	n = strlen(args[i]);
@@ -348,10 +351,11 @@ my_popen(char *cmd, int *readfdp, int *writefdp, int *errorfdp)
  * read the file descriptor and stuff the data into the given array for the
  * number of bytes given.  Throw the rest away.
  */
-static int
+static ssize_t
 read_string(int fd, char *string, int len)
 {
-    uint i, ret;
+    uint i;
+    ssize_t ret;
     char c;
 
     i = 0;

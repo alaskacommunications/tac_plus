@@ -40,7 +40,7 @@ create_md5_hash(int session_id, char *key, u_char version, u_char seq_no,
 		u_char *prev_hash, u_char *hash)
 {
     u_char *md_stream, *mdp;
-    int md_len;
+    size_t md_len;
     MD5_CTX mdcontext;
 
     md_len = sizeof(session_id) + strlen(key) + sizeof(version) +
@@ -67,7 +67,7 @@ create_md5_hash(int session_id, char *key, u_char version, u_char seq_no,
 	mdp += TAC_MD5_DIGEST_LEN;
     }
     MD5Init(&mdcontext);
-    MD5Update(&mdcontext, md_stream, md_len);
+    MD5Update(&mdcontext, md_stream, (int)md_len);
     MD5Final(hash, &mdcontext);
     free(md_stream);
     return;
